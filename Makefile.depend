@@ -1,8 +1,3 @@
-main.o: main.cpp ../../src/midifile-head/include/MidiFile.h \
- ../../src/midifile-head/include/MidiEventList.h \
- ../../src/midifile-head/include/MidiEvent.h \
- ../../src/midifile-head/include/MidiMessage.h playmidi.h getmidifiles.h \
- midinames.h
 playmidi.o: playmidi.cpp playmidi.h fluidsynth-headers/fluidsynth.h \
  fluidsynth-headers/fluidsynth/types.h \
  fluidsynth-headers/fluidsynth/settings.h \
