@@ -1,0 +1,8 @@
+These files are from MIDI archive collected from various websites. These can/will contain copyrighted work which redistribution is PROHIBITED.
+
+However, because Google is able to calculate indexes (google search) and do data analysis without breaking copyright.
+So I guess using these as a source for statistical machine learning algorithms is ok.
+
+
+
+
