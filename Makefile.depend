@@ -1,0 +1,23 @@
+main.o: main.cpp ../../src/midifile-head/include/MidiFile.h \
+ ../../src/midifile-head/include/MidiEventList.h \
+ ../../src/midifile-head/include/MidiEvent.h \
+ ../../src/midifile-head/include/MidiMessage.h playmidi.h getmidifiles.h \
+ midinames.h
+playmidi.o: playmidi.cpp playmidi.h fluidsynth-headers/fluidsynth.h \
+ fluidsynth-headers/fluidsynth/types.h \
+ fluidsynth-headers/fluidsynth/settings.h \
+ fluidsynth-headers/fluidsynth/synth.h \
+ fluidsynth-headers/fluidsynth/shell.h \
+ fluidsynth-headers/fluidsynth/sfont.h \
+ fluidsynth-headers/fluidsynth/ramsfont.h \
+ fluidsynth-headers/fluidsynth/audio.h \
+ fluidsynth-headers/fluidsynth/event.h \
+ fluidsynth-headers/fluidsynth/midi.h fluidsynth-headers/fluidsynth/seq.h \
+ fluidsynth-headers/fluidsynth/seqbind.h \
+ fluidsynth-headers/fluidsynth/seq.h fluidsynth-headers/fluidsynth/log.h \
+ fluidsynth-headers/fluidsynth/misc.h fluidsynth-headers/fluidsynth/mod.h \
+ fluidsynth-headers/fluidsynth/gen.h \
+ fluidsynth-headers/fluidsynth/voice.h \
+ fluidsynth-headers/fluidsynth/version.h
+getmidifiles.o: getmidifiles.cpp getmidifiles.h
+rbm_test.o: rbm_test.cpp

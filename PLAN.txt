@@ -1,0 +1,52 @@
+Mini notes generator
+
+1. First create MIDI loader that loads and transforms MIDI files into MIDI matrix
+   - divide time into 100ms long periods and set value 0..1 if note X is played
+     with volume 0..1 (if multiple instruments play same note add volume up to 1),
+     if note is only partially played during the time interval mark it is p% of 
+     its value
+   - use note range (3 octaves) A-2 - A-6 [48 notes]
+   - ignore drums for now (we generate only melodies) 
+     // [later generate only drums then get them in sync]
+   - ignore everything else (we are only interested in notes)
+
+   DONE.
+
+2. For testing purposes write code to play randomly generated or loaded
+   MIDI note matrixes using piano keys and simple bass 
+   [artificially test good boundary value when to play piano keys and 
+    when to switch to bass or just use piano for all]
+    	 
+   DONE.
+
+3. Export MIDI note matrixes into dinrhiw2 dataset format for training
+   stacked BB-BRM (initially) BB-RBM 
+   [discretize note values first with somekind of 30% cutoff level]
+   	       
+   - take 4+1 seconds long MIDI note matrix sequences and vectorize
+     for dinrhiw2 dataset input format for RBM
+
+   Use 100ms accuracy although 10ms would be much better (be enough). 
+   100ms causes serious damage to melodies but keeps "NOTE picture" sizes "sane".
+
+   DONE.
+   
+   - test GB-RBM with floating point note volume values
+     [feed combined input+ouput into 1 layer GB-RBM: this will have 
+      60*5*10 = 3000 input dimensions.
+
+      - test running time and reconstruction error with different number
+        of hidden units:
+
+	- 10 hidden units (just test code runs ok)
+	- 100, 1000, 1500, 3000 units
+
+      
+
+4. MIDI note synthesis
+
+   - learn 2 stacked RBMs with and without latest (one second)
+   - use feedforward neural networks to map feature vectors of 
+     two stacked RBMs into another and synthesize extra one second forward
+   - add new notes (500ms?) and then loop to synthesize more notes..
+
