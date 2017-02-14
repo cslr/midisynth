@@ -11,15 +11,15 @@ RM = rm -f
 MV = mv
 CP = cp
 
-CFLAGS=-std=c++1y -O3 -g -fopenmp -I. -I/home/rpls/src/midifile-head/include `pkg-config dinrhiw --cflags` -Ifluidsynth-headers
+CFLAGS=-std=c++1y -O3 -g -fopenmp -I. -I../../midifile.git/trunk/include `pkg-config dinrhiw --cflags` `pkg-config fluidsynth --cflags`
 CXXFLAGS=$(CFLAGS)
 
 OBJECTS=main.o playmidi.o getmidifiles.o
 SOURCES=main.cpp playmidi.cpp getmidifiles.cpp
 TARGET=midisynth
 
-LIBS=-L/home/rpls/src/midifile-head/lib/ -lmidifile `pkg-config dinrhiw --libs` \
-	/usr/lib/x86_64-linux-gnu/libfluidsynth.so.1
+LIBS=-L../../midifile.git/trunk/lib/ -lmidifile `pkg-config dinrhiw --libs` \
+	`pkg-config fluidsynth --libs`
 
 RBM_OBJECTS=rbm_test.o
 RBM_SOURCES=rbm_test.cpp

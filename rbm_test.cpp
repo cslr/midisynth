@@ -58,11 +58,13 @@ int main(int argc, char** argv)
   //////////////////////////////////////////////////////////////////////
   // now we learn GB-RBM weights
   
-  printf("GBRBM architecture: %dx%d\n", gbrbm.getVisibleNodes(), gbrbm.getHiddenNodes());
-  printf("Direct learning GBRBM weights (gradient descent data maximum likelihood)..\n");
+  printf("GBRBM architecture: %dx%d\n",
+	 gbrbm.getVisibleNodes(), gbrbm.getHiddenNodes());
+  
+  printf("Learning GBRBM weights (gradient descent data maximum likelihood)..\n");
   fflush(stdout);
   
-  auto error = gbrbm.learnWeights(samples, 500, true, true);
+  auto error = gbrbm.learnWeights(samples, 500, true);
   
   printf("GBRBM optimization finished. Reconstruction error: %f\n", error.c[0]);
   fflush(stdout);
