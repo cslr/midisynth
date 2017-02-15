@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     return -1;
   }
 
-  printf("%d samples training samples loaded\n", db.size(0));
+  printf("%d training samples loaded\n", db.size(0));
 
   std::vector<unsigned int> inputArch, outputArch;
 
