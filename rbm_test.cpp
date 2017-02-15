@@ -15,7 +15,7 @@ int main(int argc, char** argv)
   // loads examples database
   whiteice::dataset<> db;
   
-  if(db.load("midinotes.ds") == false){
+  if(db.load("models/midinotes.ds") == false){
     printf("ERROR: Couldn't load database.");
     return -1;
   }
