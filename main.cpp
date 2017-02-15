@@ -18,7 +18,7 @@ bool loadMIDIFile(const std::string& filename,
 
 int main(int argc, char** argv)
 {
-  std::cout << "Midisynth started" << std::endl;
+  std::cout << "GENERATE MIDI SAMPLES FROM MID-FILES" << std::endl;
   
   // if(argc != 2) return -1;
   std::string filename = "MissionImpossible.mid";
@@ -111,8 +111,10 @@ int main(int argc, char** argv)
   printf("%d MIDI files processed. Total %d datapoints.\n", filesProcessed, datapoints);
   
   // now we have processed all midi files and save the (input,output) pairs to disk
-  if(db.save("midinotes.ds") == true) printf("Database saved successfully.\n");
-  else printf("Saving database FAILED.\n");
+  if(db.save("models/midinotes.ds") == true) printf(
+					     "Database saved successfully.\n");
+  else
+    printf("Saving database FAILED.\n");
   
   
   

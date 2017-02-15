@@ -7,9 +7,9 @@
 
 int main(int argc, char** argv)
 {
-  printf("RBM MIDI NOTES TEST\n");
+  printf("RBM MIDI NOTES MODEL\n");
   
-  const int HIDDEN = 10; // number of hidden nodes in RBM networks
+  const int HIDDEN = 50; // number of hidden nodes in RBM networks
 
   
   // loads examples database
@@ -69,18 +69,8 @@ int main(int argc, char** argv)
 
   inputRBM.learnWeights(input_samples, dW, true);
 
-  whiteice::nnetwork<>* net = nullptr;
-
-  if(inputRBM.convertToNNetwork(net) == true){
-    if(net->save("midi-input-nnetwork.conf") == false){
-      printf("ERROR: saving MIDI input RBM network failed\n");
-    }
-    
-    delete net;
-    net = nullptr;
-  }
-  else{
-    printf("ERROR: converting RBM to nnetwork failed,\n");
+  if(inputRBM.save("models/midi-input-nnetwork.conf") == false){
+    printf("ERROR: saving RBM network failed.\n");
   }
 
   printf("OUTPUT architecture: %dx%dx%d\n",
@@ -91,16 +81,8 @@ int main(int argc, char** argv)
 
   outputRBM.learnWeights(output_samples, dW, true);
 
-  if(outputRBM.convertToNNetwork(net) == true){
-    if(net->save("midi-output-nnetwork.conf") == false){
-      printf("ERROR: saving MIDI output RBM network failed\n");
-    }
-    
-    delete net;
-    net = nullptr;
-  }
-  else{
-    printf("ERROR: converting RBM to nnetwork failed,\n");
+  if(outputRBM.save("models/midi-output-nnetwork.conf") == false){
+    printf("ERROR: saving RBM network failed.\n");
   }
 
   

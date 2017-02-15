@@ -16,14 +16,14 @@ CXXFLAGS=$(CFLAGS)
 
 OBJECTS=main.o playmidi.o getmidifiles.o
 SOURCES=main.cpp playmidi.cpp getmidifiles.cpp
-TARGET=midisynth
+TARGET=midi_database
 
 LIBS=-L../../midifile.git/trunk/lib/ -lmidifile `pkg-config dinrhiw --libs` \
 	`pkg-config fluidsynth --libs`
 
 RBM_OBJECTS=rbm_test.o
 RBM_SOURCES=rbm_test.cpp
-RBM_TARGET=rbm_test
+RBM_TARGET=rbm_step
 
 ##################################################
 
