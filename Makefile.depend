@@ -13,4 +13,5 @@ midisynth.o: midisynth.cpp ../../midifile.git/trunk/include/MidiFile.h \
  midinames.h
 playmidi.o: playmidi.cpp playmidi.h
 getmidifiles.o: getmidifiles.cpp getmidifiles.h
+nn_step.o: nn_step.cpp
 rbm_test.o: rbm_test.cpp

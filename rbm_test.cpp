@@ -8,8 +8,9 @@
 int main(int argc, char** argv)
 {
   printf("RBM MIDI NOTES MODEL\n");
-  
-  const int HIDDEN = 50; // number of hidden nodes in RBM networks
+
+  // number of hidden nodes in RBM networks
+  const int HIDDEN = 10; // was 50
 
   
   // loads examples database
@@ -35,11 +36,11 @@ int main(int argc, char** argv)
   std::vector<unsigned int> inputArch, outputArch;
 
   inputArch.push_back(db.dimension(0));
-  inputArch.push_back(db.dimension(0)*2);
+  inputArch.push_back(HIDDEN); // db.dimension(0)*2);
   inputArch.push_back(HIDDEN);
 
   outputArch.push_back(db.dimension(1));
-  outputArch.push_back(db.dimension(1)*2);
+  outputArch.push_back(HIDDEN); // db.dimension(1)*2);
   outputArch.push_back(HIDDEN);
   
   whiteice::DBN<> inputRBM(inputArch);
@@ -69,7 +70,7 @@ int main(int argc, char** argv)
 
   inputRBM.learnWeights(input_samples, dW, true);
 
-  if(inputRBM.save("models/midi-input-nnetwork.conf") == false){
+  if(inputRBM.save("temp/midi-input-nnetwork.conf") == false){
     printf("ERROR: saving RBM network failed.\n");
   }
 
@@ -81,7 +82,7 @@ int main(int argc, char** argv)
 
   outputRBM.learnWeights(output_samples, dW, true);
 
-  if(outputRBM.save("models/midi-output-nnetwork.conf") == false){
+  if(outputRBM.save("temp/midi-output-nnetwork.conf") == false){
     printf("ERROR: saving RBM network failed.\n");
   }
 
