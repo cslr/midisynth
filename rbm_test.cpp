@@ -3,8 +3,79 @@
 #include <iostream>
 #include <dinrhiw/dinrhiw.h>
 
+#include <vector>
 
 
+int main(int argc, char** argv)
+{
+  printf("RBM MIDI NOTES MODEL\n");
+
+  whiteice::dataset<> db;
+
+  if(db.load("models/midinotes.ds") == false){
+    printf("ERROR: Couldn't load database\n");
+    return -1;
+  }
+
+  printf("Converting data to timeseries format..\n");
+
+  std::vector< std::vector< whiteice::math::vertex<> > > timeseries;
+  timeseries.resize(db.getNumberOfClusters());
+
+  unsigned int datapoints = 0;
+
+  for(unsigned int i=0;i<db.getNumberOfClusters();i++){
+    std::vector< whiteice::math::vertex<> >& ts = timeseries[i];
+
+    for(unsigned int k=0;k<db.size(i);k++){
+      ts.push_back(db.access(i,k));
+      datapoints++;
+    }
+  }
+
+  printf("STARTING RNN-RBM (%d datapoints)...\n", datapoints);
+
+  whiteice::RNN_RBM<> rbm(128, 16, 2);
+
+  printf("RNN_RBM %dx%dx%d\n",
+	 rbm.getVisibleDimensions(),
+	 rbm.getHiddenDimensions(),
+	 rbm.getRecurrentDimensions());
+
+  if(rbm.startOptimize(timeseries) == false){
+    printf("ERROR: starting RNN-RBM optimizer FAILED.\n");
+    return -1;
+  }
+
+  unsigned int iters = 0;
+  
+  while(rbm.isRunning()){
+    whiteice::math::blas_real<float> e;
+    const unsigned int old_iters = iters;
+    
+    if(rbm.getOptimizeError(iters, e)){
+      if(iters != old_iters){
+	printf("%d ITER. ERROR: %f\n", iters, e.c[0]);
+	fflush(stdout);
+      }
+    }
+    else{
+      printf("ERROR: RNN_RBM::getOptimizeError() failed.\n");
+      return -1;
+    }
+  }
+
+  rbm.stopOptimize();
+
+  if(rbm.save("models/midi-rbm-rnn.conf") == false){
+    printf("ERROR: saving RNN-RBM FAILED.\n");
+  }
+
+  return 0;
+}
+
+
+#if 0
 int main(int argc, char** argv)
 {
   printf("RBM MIDI NOTES MODEL\n");
@@ -89,3 +160,4 @@ int main(int argc, char** argv)
   
   return 0;
 }
+#endif
