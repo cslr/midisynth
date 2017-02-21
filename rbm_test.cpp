@@ -1,14 +1,21 @@
 
 #include <stdio.h>
-#include <iostream>
+#include <signal.h>
+#include <unistd.h>
 #include <dinrhiw/dinrhiw.h>
 
+#include <iostream>
 #include <vector>
+
+volatile bool stopsignal = false;
+void install_signal_handler();
 
 
 int main(int argc, char** argv)
 {
   printf("RBM MIDI NOTES MODEL\n");
+
+  install_signal_handler();
 
   whiteice::dataset<> db;
 
@@ -37,7 +44,7 @@ int main(int argc, char** argv)
 
   whiteice::RNN_RBM<> rbm(128, 16, 2);
 
-  printf("RNN_RBM %dx%dx%d\n",
+  printf("RNN-RBM %dx%dx%d\n",
 	 rbm.getVisibleDimensions(),
 	 rbm.getHiddenDimensions(),
 	 rbm.getRecurrentDimensions());
@@ -49,7 +56,7 @@ int main(int argc, char** argv)
 
   unsigned int iters = 0;
   
-  while(rbm.isRunning()){
+  while(rbm.isRunning() && !stopsignal){
     whiteice::math::blas_real<float> e;
     const unsigned int old_iters = iters;
     
@@ -65,6 +72,8 @@ int main(int argc, char** argv)
     }
   }
 
+  printf("Stopping RNN-RBM optimization..\n");
+
   rbm.stopOptimize();
 
   if(rbm.save("models/midi-rbm-rnn.conf") == false){
@@ -73,6 +82,28 @@ int main(int argc, char** argv)
 
   return 0;
 }
+
+
+
+void sigint_signal_handler(int s)
+{
+  stopsignal = true;
+}
+
+
+void install_signal_handler()
+{
+#ifndef WINOS
+  struct sigaction sih;
+  
+  sih.sa_handler = sigint_signal_handler;
+  sigemptyset(&sih.sa_mask);
+  sih.sa_flags = 0;
+
+  sigaction(SIGINT, &sih, NULL);
+#endif
+}
+
 
 
 #if 0
