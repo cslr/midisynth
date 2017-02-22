@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
+#include <string.h>
+
 #include <dinrhiw/dinrhiw.h>
 
 #include <iostream>
@@ -35,21 +37,48 @@ int main(int argc, char** argv)
     std::vector< whiteice::math::vertex<> >& ts = timeseries[i];
 
     for(unsigned int k=0;k<db.size(i);k++){
-      ts.push_back(db.access(i,k));
+      // we convert full-range 128 MIDI notes
+      // to use 3 octaves instead C-4, C-5 and C-6 (3*12 = 36) 48..83
+
+      auto& note = db.access(i,k);
+      whiteice::math::vertex<> n(36);
+
+      for(unsigned int i=48;i<84;i++){
+	n[i-48] = note[i];
+      }
+      
+      ts.push_back(n);
+      
       datapoints++;
+    }
+  }
+
+  // whiteice::RNN_RBM<> rbm(128, 16, 2);
+  whiteice::RNN_RBM<> rbm(36, 16, 2);
+
+  bool hasRBM = false;
+
+  if(argc > 1){
+    if(strcmp(argv[1], "--load") == 0){
+      if(rbm.load("models/midi-rbm-rnn.conf") == false){
+	printf("ERROR: loading RNN-RBM failed.\n");
+	return -1;
+      }
+
+      hasRBM = true;
+      printf("Loaded RNN-RBM from disk.\n");
     }
   }
 
   printf("STARTING RNN-RBM (%d datapoints)...\n", datapoints);
 
-  whiteice::RNN_RBM<> rbm(128, 16, 2);
 
   printf("RNN-RBM %dx%dx%d\n",
 	 rbm.getVisibleDimensions(),
 	 rbm.getHiddenDimensions(),
 	 rbm.getRecurrentDimensions());
 
-  if(rbm.startOptimize(timeseries) == false){
+  if(rbm.startOptimize(timeseries, !hasRBM) == false){
     printf("ERROR: starting RNN-RBM optimizer FAILED.\n");
     return -1;
   }
