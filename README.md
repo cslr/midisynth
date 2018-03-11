@@ -1,5 +1,5 @@
 # midisynth
-MIDI notes synthesizer (attempt to algorithmic music through RBM neural networks).
+MIDI notes synthesizer (attempt to algorithmic music through recurrent RBM neural networks).
 
 Modified implementation is based on paper 
 
