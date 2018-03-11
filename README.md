@@ -1,8 +1,8 @@
 # midisynth
-MIDI notes synthesizer (attempt fto algorithmic music through RBM neural networks).
+MIDI notes synthesizer (attempt to algorithmic music through RBM neural networks).
 
 Modifief implementation is based on paper 
 
 Modeling Temporal Dependencies in High-Dimensional Sequences: Application To Polyphonic Music Generation and Transcription
 
-See paper in docs folder.
+See paper in docs folder. In practice I run out of computer power (no GPUs) so I results were not very good.
